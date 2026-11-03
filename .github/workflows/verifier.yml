@@ -1,0 +1,34 @@
+name: Vérifier le site
+
+# Le site est publié par GitHub Pages directement depuis la branche main (racine).
+# Ce workflow vérifie que les pages générées (*.html) correspondent bien aux sources (pages/).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Reconstruire
+        run: ./build.sh
+
+      - name: Vérifier que les pages générées sont à jour
+        run: |
+          if [ -n "$(git status --porcelain -- '*.html')" ]; then
+            echo "::error::Les pages *.html ne sont pas à jour : lancer ./build.sh puis committer."
+            git status --short -- '*.html'
+            exit 1
+          fi

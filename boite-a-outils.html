@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boîte à outils · Parcours IA</title>
+<meta name="description" content="Les fiches pratiques du Parcours IA : construire un prompt, savoir si une donnée peut être saisie, vérifier une réponse, anonymiser, qualifier un usage.">
+<link rel="stylesheet" href="css/accompagnement.css">
+</head>
+<body>
+<!-- GÉNÉRÉ par scripts/construire.py depuis pages/boite-a-outils.html : ne pas modifier ici. -->
+<a class="lien-evitement" href="#contenu">Aller au contenu</a>
+<header class="entete">
+  <div class="entete-inner">
+    <div class="entete-identite">
+      <div>
+        <span class="entete-institution">Université Paris-Saclay · IFPOC</span>
+        <a class="entete-titre" href="index.html">Parcours IA · accompagnement</a>
+      </div>
+    </div>
+    <nav class="entete-profils" aria-label="Espaces dédiés">
+      <a href="animateurs.html">Espace animateurs</a>
+      <a href="responsables.html">Responsables de service</a>
+    </nav>
+  </div>
+</header>
+<nav class="nav" aria-label="Navigation principale">
+  <ul>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="avant.html">Avant l&#x27;atelier</a></li>
+    <li><a href="jour-j.html">Le jour J</a></li>
+    <li><a href="apres.html">Après l&#x27;atelier</a></li>
+    <li><a href="boite-a-outils.html" aria-current="page">Boîte à outils</a></li>
+    <li><a href="cas-usage.html">Cas d&#x27;usage</a></li>
+    <li><a href="reperes.html">Repères</a></li>
+  </ul>
+</nav>
+<main id="contenu" tabindex="-1">
+<p class="surtitre">À garder sous la main</p>
+<h1>Boîte à outils</h1>
+<p class="chapeau">Cinq fiches courtes, pour le moment où vous êtes devant votre tâche. Chacune s'imprime sur une page.</p>
+
+<nav aria-label="Fiches de la boîte à outils" class="ne-pas-imprimer">
+  <div class="grille">
+    <a class="carte" href="#prompt"><span class="carte-titre">Construire un prompt</span><span class="doux">Contexte, consigne, format</span></a>
+    <a class="carte" href="#donnees"><span class="carte-titre">Puis-je saisir cette donnée ?</span><span class="doux">Quatre questions</span></a>
+    <a class="carte" href="#verifier"><span class="carte-titre">Vérifier une réponse</span><span class="doux">Quatre réflexes</span></a>
+    <a class="carte" href="#anonymiser"><span class="carte-titre">Anonymiser</span><span class="doux">Quatre gestes</span></a>
+    <a class="carte" href="#boussole"><span class="carte-titre">La boussole IA</span><span class="doux">Six questions avant d'adopter</span></a>
+  </div>
+</nav>
+
+<section class="fiche" aria-labelledby="prompt">
+  <h2 id="prompt">Construire un prompt</h2>
+  <div class="grille-2">
+    <div>
+      <div class="tableau">
+        <table>
+          <thead><tr><th scope="col">Bloc</th><th scope="col">La question à se poser</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Contexte</strong></td><td>Qui suis-je, pour qui, dans quelle situation ?</td></tr>
+            <tr><td><strong>Consigne</strong></td><td>Qu'est-ce que je veux exactement ?</td></tr>
+            <tr><td><strong>Format</strong></td><td>Sous quelle forme, quelle longueur, quel ton ?</td></tr>
+            <tr><td><strong>Itération</strong></td><td>Que faut-il corriger ? On le dit précisément plutôt que de tout recommencer.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="doux petit">Astuce : donnez à l'IA le texte sur lequel s'appuyer, et demandez-lui de signaler ce qui manque plutôt que de l'inventer.</p>
+    </div>
+    <form id="constructeur-prompt" class="carte ne-pas-imprimer" novalidate>
+      <p class="carte-titre">Assistant de prompt</p>
+      <label for="p-contexte">Contexte <span class="aide">Qui vous êtes, à qui s'adresse le résultat, dans quelle situation.</span></label>
+      <textarea id="p-contexte" name="contexte" placeholder="Je suis gestionnaire dans un laboratoire. J'écris à un fournisseur dont la commande a trois semaines de retard."></textarea>
+      <label for="p-consigne">Consigne <span class="aide">Ce que vous voulez obtenir. Obligatoire.</span></label>
+      <textarea id="p-consigne" name="consigne" aria-describedby="prompt-erreur" placeholder="Rédige un courriel de relance courtois et ferme."></textarea>
+      <p class="erreur-champ" id="prompt-erreur" aria-live="polite"></p>
+      <label for="p-source">Texte de référence <span class="aide">Facultatif. Sans donnée sensible ni nom de personne.</span></label>
+      <textarea id="p-source" name="source"></textarea>
+      <label for="p-format">Format <span class="aide">Longueur, ton, structure, éléments obligatoires.</span></label>
+      <textarea id="p-format" name="format" placeholder="8 lignes maximum, vouvoiement, rappeler le numéro de commande et une date limite."></textarea>
+      <div class="actions"><button type="submit" class="bouton bouton-plein">Assembler mon prompt</button></div>
+      <div id="prompt-zone" hidden tabindex="-1">
+        <p class="petit"><strong>Votre prompt, prêt à coller dans un outil autorisé :</strong></p>
+        <pre class="prompt" id="prompt-resultat"></pre>
+        <button type="button" class="bouton" data-copier="prompt-resultat">Copier</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="fiche" aria-labelledby="donnees">
+  <h2 id="donnees">Puis-je saisir cette donnée ?</h2>
+  <div class="grille-2">
+    <form id="triage-donnees" class="carte" novalidate>
+      <fieldset>
+        <legend>1. L'outil fait-il partie des outils autorisés ?</legend>
+        <div class="choix">
+          <label><input type="radio" name="outil" value="oui">Oui</label>
+          <label><input type="radio" name="outil" value="non">Non, ou je ne sais pas</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>2. Une personne peut-elle être reconnue (nom, numéro, fonction unique, détail qui permet de deviner) ?</legend>
+        <div class="choix">
+          <label><input type="radio" name="personnes" value="oui">Oui</label>
+          <label><input type="radio" name="personnes" value="non">Non</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>3. S'agit-il de santé, d'évaluation, de sanction, de situation sociale ou d'un avis sur une personne ?</legend>
+        <div class="choix">
+          <label><input type="radio" name="sensible" value="oui">Oui</label>
+          <label><input type="radio" name="sensible" value="non">Non</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>4. Le contenu est-il interne et non public (document de travail, données de gestion) ?</legend>
+        <div class="choix">
+          <label><input type="radio" name="interne" value="oui">Oui</label>
+          <label><input type="radio" name="interne" value="non">Non, il est déjà public</label>
+        </div>
+      </fieldset>
+      <p class="erreur-champ" id="triage-erreur" aria-live="polite"></p>
+      <div class="actions"><button type="submit" class="bouton bouton-plein">Obtenir la réponse</button></div>
+      <div id="triage-resultat" class="resultat" tabindex="-1" aria-live="polite"></div>
+    </form>
+    <div>
+      <div class="encadre encadre-interdit">
+        <p><strong>Jamais dans un outil d'IA</strong>, même autorisé, même « anonymisé » à la main : santé, évaluation et entretiens professionnels, sanctions, situation sociale ou familiale, avis sur une personne.</p>
+      </div>
+      <p>En cas de doute, la réponse est non, le temps de poser la question. <a href="reperes.html#contacts">Qui contacter</a></p>
+      <p class="doux petit">Cet outil aide à décider ; il ne remplace pas la charte IA de l'université ni l'avis du délégué à la protection des données.</p>
+    </div>
+  </div>
+</section>
+
+<section class="fiche" aria-labelledby="verifier">
+  <h2 id="verifier">Vérifier une réponse de l'IA</h2>
+  <p>Une réponse peut être claire, sûre d'elle et fausse. Avant d'utiliser un résultat, quatre réflexes :</p>
+  <div class="grille">
+    <div class="carte"><p class="carte-titre">1. Les faits</p><p>Chaque chiffre, date, nom ou référence est vérifié <strong>à la source</strong> : pas en redemandant à l'IA.</p></div>
+    <div class="carte"><p class="carte-titre">2. Les sources</p><p>Chaque source citée existe, et dit bien ce que l'IA lui fait dire. Ouvrez le lien, cherchez le titre exact.</p></div>
+    <div class="carte"><p class="carte-titre">3. Les biais</p><p>Le texte ne reproduit pas de stéréotype : genre, âge, origine, métier. En cas de doute, demandez une version neutre.</p></div>
+    <div class="carte"><p class="carte-titre">4. L'usage</p><p>Le résultat répond à votre demande, dans le ton et le cadre de votre service. Vous pourriez le signer.</p></div>
+  </div>
+  <h3>Les erreurs les plus fréquentes</h3>
+  <div class="tableau">
+    <table>
+      <thead><tr><th scope="col">Erreur</th><th scope="col">À quoi la reconnaître</th><th scope="col">Comment vérifier</th></tr></thead>
+      <tbody>
+        <tr><td>Référence inventée</td><td>Un article de loi, un DOI, un titre précis et plausible</td><td>Légifrance, catalogue de la bibliothèque, HAL</td></tr>
+        <tr><td>Calcul faux</td><td>Un total ou des pourcentages qui ne tombent pas juste, souvent de peu</td><td>Refaire le calcul dans un tableur</td></tr>
+        <tr><td>Information périmée</td><td>Un nom, un chiffre ou une règle d'une autre époque</td><td>Le site officiel concerné</td></tr>
+        <tr><td>Biais</td><td>Genre ou qualités qui changent selon le métier ou la personne</td><td>Relire avec la question « et si c'était l'inverse ? »</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="fiche" aria-labelledby="anonymiser">
+  <h2 id="anonymiser">Anonymiser en quatre gestes</h2>
+  <ol>
+    <li><strong>Remplacer</strong> les noms et prénoms par des rôles : « agent A », « la responsable du service B ».</li>
+    <li><strong>Retirer</strong> les numéros et identifiants : adresse, téléphone, numéro d'agent ou d'étudiant, numéro de dossier.</li>
+    <li><strong>Couper</strong> ce qui n'est pas utile : gardez le passage nécessaire, pas le document entier.</li>
+    <li><strong>Relire</strong> avant d'envoyer : quelqu'un qui connaît le service pourrait-il deviner de qui il s'agit ? Une fonction unique (« le directeur du laboratoire X ») suffit à reconnaître une personne.</li>
+  </ol>
+  <div class="encadre encadre-alerte">
+    <p>Anonymiser ne rend pas une donnée sensible saisissable. Santé, évaluation, sanction : on ne les saisit pas, même sans les noms. Dans une petite équipe, les personnes restent reconnaissables.</p>
+  </div>
+</section>
+
+<section class="fiche" aria-labelledby="boussole">
+  <h2 id="boussole">La boussole IA : six questions avant d'adopter un usage</h2>
+  <div class="tableau">
+    <table>
+      <thead><tr><th scope="col">Question</th><th scope="col">Ce qu'on se demande</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Utilité</strong></td><td>Est-ce que je gagne du temps ou de la qualité, <em>vérification comprise</em> ?</td></tr>
+        <tr><td><strong>Vérification</strong></td><td>Comment je contrôle le résultat, et est-ce réaliste à chaque fois ?</td></tr>
+        <tr><td><strong>Données</strong></td><td>Qu'est-ce que je saisis, qu'est-ce que je retire avant ?</td></tr>
+        <tr><td><strong>Biais</strong></td><td>Qu'est-ce que je surveille dans les résultats ?</td></tr>
+        <tr><td><strong>Propriété intellectuelle</strong></td><td>À qui appartiennent les contenus ? Dois-je signaler l'usage de l'IA ?</td></tr>
+        <tr><td><strong>Responsabilité</strong></td><td>Qui relit et valide avant diffusion ?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Trois issues possibles, toutes valables si elles sont justifiées : <span class="badge badge-ok">J'adopte</span> <span class="badge badge-prudence">J'adopte avec précautions</span> <span class="badge badge-non">Je n'adopte pas</span></p>
+  <p class="doux petit">Libellés à aligner sur le guide « Boussole IA » de référence.</p>
+</section>
+
+<div class="actions"><button type="button" class="bouton" data-imprimer>Imprimer les fiches</button></div>
+</main>
+<footer class="pied">
+  <ul>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="avant.html">Avant l&#x27;atelier</a></li>
+    <li><a href="jour-j.html">Le jour J</a></li>
+    <li><a href="apres.html">Après l&#x27;atelier</a></li>
+    <li><a href="boite-a-outils.html" aria-current="page">Boîte à outils</a></li>
+    <li><a href="cas-usage.html">Cas d&#x27;usage</a></li>
+    <li><a href="reperes.html">Repères</a></li>
+    <li><a href="animateurs.html">Espace animateurs</a></li>
+    <li><a href="responsables.html">Responsables de service</a></li>
+  </ul>
+  <p>Site d'accompagnement du Parcours IA, version pilote. Les outils de cette page fonctionnent dans votre navigateur : rien de ce que vous saisissez n'est envoyé.</p>
+  <p><span class="a-completer">Modules en ligne de la formation : lien du cours sur le LMS à compléter.</span></p>
+</footer>
+<script src="js/accompagnement.js"></script>
+</body>
+</html>

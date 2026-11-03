@@ -1,0 +1,38 @@
+titre: Cas d'usage
+description: Bibliothèque de cas d'usage de l'IA par métier, avec prompt, vérification, précautions et décision.
+menu: cas
+scripts: cas-usage.js
+
+<p class="surtitre">Par et pour les personnels</p>
+<h1>Bibliothèque de cas d'usage</h1>
+<p class="chapeau">Des usages testés par des collègues, avec leur prompt, leur méthode de vérification et leurs limites. Les cas « je n'adopte pas » sont aussi utiles que les autres : ils évitent de refaire le même essai.</p>
+
+<div class="encadre encadre-alerte">
+  <p><strong>Version pilote :</strong> les cas ci-dessous sont des exemples fictifs de démonstration. Ils seront remplacés par les fiches cas d'usage validées et anonymisées des premières sessions, sélectionnées par l'IFPOC.</p>
+</div>
+
+<div class="filtres">
+  <div>
+    <label for="filtre-metier">Métier</label>
+    <select id="filtre-metier"><option value="">Tous les métiers</option></select>
+  </div>
+  <div>
+    <label for="filtre-decision">Décision</label>
+    <select id="filtre-decision">
+      <option value="">Toutes</option>
+      <option value="adopte">J'adopte</option>
+      <option value="precautions">J'adopte avec précautions</option>
+      <option value="non">Je n'adopte pas</option>
+    </select>
+  </div>
+  <div>
+    <label for="filtre-texte">Rechercher</label>
+    <input type="text" id="filtre-texte" placeholder="compte rendu, relance…">
+  </div>
+</div>
+<p class="petit doux" id="cas-compteur" aria-live="polite"></p>
+<div id="cas-liste"></div>
+<noscript><p>La bibliothèque a besoin de JavaScript pour s'afficher.</p></noscript>
+
+<h2>Proposer votre cas</h2>
+<p class="lecture">Votre fiche cas d'usage, déposée après l'atelier, peut rejoindre la bibliothèque : l'IFPOC sélectionne les cas les plus utiles, les anonymise et les publie ici. Vous n'avez rien de plus à faire. <a href="apres.html#fiche">Ma fiche cas d'usage</a></p>
